@@ -180,19 +180,19 @@ h1 {
   align-items: center;
   text-align: center;
   padding: 30px 15px;
-  border: 1px solid #1E5738; /* Deep Forest Green border */
+  border: 1px solid #1E5738; 
   border-radius: 8px;
   text-decoration: none;
-  background-color: #0d2317; /* Darker green background for the card */
+  background-color: #0d2317;
   transition: transform 0.2s, box-shadow 0.2s;
-  color: #c9d6cf; /* Light text color for card content */
+  color: #c9d6cf;
 }
 
 .quick-link:hover {
-  transform: translateY(-5px); /* Lift effect */
-  box-shadow: 0 10px 20px rgba(48, 181, 100, 0.4); /* Soft green shadow */
-  border-color: #30B564; /* Highlight border with primary green */
-  color: white; /* Ensure text stays bright on hover */
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(48, 181, 100, 0.4);
+  border-color: #30B564; 
+  color: white; 
 }
 
 .quick-link .icon {

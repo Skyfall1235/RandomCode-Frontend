@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RandomAPI | Wyatt M.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;600;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #09090b;
+            color: #fafafa;
+        }
+
+        .mono { font-family: 'Fira Code', monospace; }
+
+        .tool-button {
+            background: #09090b;
+            border: 1px solid #27272a;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-button:hover {
+            border-color: #3b82f6;
+            background: #111113;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+
+        .tool-button i {
+            color: #52525b;
+            transition: all 0.2s;
+        }
+
+        .tool-button:hover i {
+            color: #3b82f6;
+            transform: scale(1.1);
+        }
+
+        /* Scanline effect */
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(59, 130, 246, 0.05);
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            animation: moveScanline 8s linear infinite;
+        }
+
+        @keyframes moveScanline {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        
+        .hidden-tool {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-6 md:p-12">
+    <div class="scanline"></div>
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Header / Intro -->
+        <header class="mb-8 border-b border-zinc-800 pb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 border border-blue-500/50 rounded flex items-center justify-center text-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <h1 class="text-3xl font-extrabold tracking-tight mono">RandomAPI<span class="text-blue-500 text-xl">_</span></h1>
+                </div>
+                <div class="text-zinc-400 text-lg max-w-2xl">
+                    Wyatt M. // Personal Utility Workspace
+                    <p class="text-zinc-500 text-sm mt-2 leading-relaxed italic">
+                        "RandomAPI" isn't about randomness—it's just a collection of various tools, scripts, and controllers I've written over time that I needed a place to slap together.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="flex flex-col gap-2 items-end">
+                <div class="mono text-[11px] text-zinc-500 bg-zinc-900/50 px-3 py-1.5 rounded border border-zinc-800 flex items-center">
+                    <span id="status-indicator" class="status-dot bg-zinc-600"></span>
+                    API_NODE: <span id="status-text" class="ml-1">INITIALIZING...</span>
+                </div>
+                <div class="mono text-[11px] text-zinc-600 px-3">
+                    ENV: <span class="text-zinc-400">PROD_FRONTEND</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Search / Filter (Functional) -->
+        <div class="mb-8 relative max-w-md">
+            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600 text-sm"></i>
+            <input type="text" id="tool-search" placeholder="filter_tools..." class="w-full bg-zinc-900 border border-zinc-800 rounded-lg py-2 pl-10 pr-4 text-sm mono focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all">
+        </div>
+
+        <!-- Tool Grid -->
+        <div id="tool-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            
+            <!-- Tool Item 1 -->
+            <a href="string-tool.html" class="tool-button p-6 rounded-lg flex flex-col items-start gap-4" data-name="string utils regex case transform">
+                <div class="w-full flex justify-between items-start">
+                    <i class="fas fa-font text-xl"></i>
+                    <span class="text-[10px] mono text-zinc-700">01</span>
+                </div>
+                <div>
+                    <span class="font-bold text-sm block mb-1">String Utils</span>
+                    <span class="text-[10px] text-zinc-600 mono uppercase">Regex / Case / Transform</span>
+                </div>
+            </a>
+
+            <!-- Tool Item 2 -->
+            <a href="json-parser.html" class="tool-button p-6 rounded-lg flex flex-col items-start gap-4" data-name="json formatter parse minify lint">
+                <div class="w-full flex justify-between items-start">
+                    <i class="fas fa-code text-xl"></i>
+                    <span class="text-[10px] mono text-zinc-700">02</span>
+                </div>
+                <div>
+                    <span class="font-bold text-sm block mb-1">JSON Formatter</span>
+                    <span class="text-[10px] text-zinc-600 mono uppercase">Parse / Minify / Lint</span>
+                </div>
+            </a>
+
+            <!-- Tool Item 3 -->
+            <a href="network-ping.html" class="tool-button p-6 rounded-lg flex flex-col items-start gap-4" data-name="net scanner icmp port status network">
+                <div class="w-full flex justify-between items-start">
+                    <i class="fas fa-network-wired text-xl"></i>
+                    <span class="text-[10px] mono text-zinc-700">03</span>
+                </div>
+                <div>
+                    <span class="font-bold text-sm block mb-1">Net Scanner</span>
+                    <span class="text-[10px] text-zinc-600 mono uppercase">ICMP / Port Status</span>
+                </div>
+            </a>
+
+            <!-- Tool Item 4 -->
+            <a href="base64.html" class="tool-button p-6 rounded-lg flex flex-col items-start gap-4" data-name="encoder decoder base64 url hex security">
+                <div class="w-full flex justify-between items-start">
+                    <i class="fas fa-shield-alt text-xl"></i>
+                    <span class="text-[10px] mono text-zinc-700">04</span>
+                </div>
+                <div>
+                    <span class="font-bold text-sm block mb-1">Encoder/Decoder</span>
+                    <span class="text-[10px] text-zinc-600 mono uppercase">Base64 / URL / Hex</span>
+                </div>
+            </a>
+
+            <!-- Tool Item 5 -->
+            <a href="unit-converter.html" class="tool-button p-6 rounded-lg flex flex-col items-start gap-4" data-name="unit converter metric data temp">
+                <div class="w-full flex justify-between items-start">
+                    <i class="fas fa-exchange-alt text-xl"></i>
+                    <span class="text-[10px] mono text-zinc-700">05</span>
+                </div>
+                <div>
+                    <span class="font-bold text-sm block mb-1">Unit Converter</span>
+                    <span class="text-[10px] text-zinc-600 mono uppercase">Metric / Data / Temp</span>
+                </div>
+            </a>
+
+            <!-- Tool Item 6 -->
+            <a href="db-mock.html" class="tool-button p-6 rounded-lg flex flex-col items-start gap-4" data-name="sql generator mock data inserts database">
+                <div class="w-full flex justify-between items-start">
+                    <i class="fas fa-database text-xl"></i>
+                    <span class="text-[10px] mono text-zinc-700">06</span>
+                </div>
+                <div>
+                    <span class="font-bold text-sm block mb-1">SQL Generator</span>
+                    <span class="text-[10px] text-zinc-600 mono uppercase">Mock Data / Inserts</span>
+                </div>
+            </a>
+
+            <!-- Placeholder -->
+            <div id="add-tool-placeholder" class="border border-dashed border-zinc-800 p-6 rounded-lg flex flex-col items-center justify-center opacity-40 grayscale">
+                <i class="fas fa-plus mb-2"></i>
+                <span class="text-[10px] mono">awaiting_deploy...</span>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-20 pt-8 border-t border-zinc-900 text-zinc-700 text-[10px] mono flex flex-col md:flex-row justify-between gap-4">
+            <div class="flex gap-6">
+                <span>SYSTEM_V: 1.0.5-LTS</span>
+                <span>HOST: GITHUB_PAGES</span>
+                <span>BUILD: SUCCESS</span>
+            </div>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-blue-500 transition-colors">GITHUB_REPO</a>
+                <span>© 2024 WYATT_M</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // --- 1. Real-time Search Logic ---
+        const searchInput = document.getElementById('tool-search');
+        const toolButtons = document.querySelectorAll('.tool-button');
+        const placeholder = document.getElementById('add-tool-placeholder');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            toolButtons.forEach(btn => {
+                const searchTerms = btn.getAttribute('data-name');
+                if (searchTerms.includes(query)) {
+                    btn.classList.remove('hidden-tool');
+                    visibleCount++;
+                } else {
+                    btn.classList.add('hidden-tool');
+                }
+            });
+
+            // Hide placeholder if searching
+            if (query.length > 0) {
+                placeholder.classList.add('hidden-tool');
+            } else {
+                placeholder.classList.remove('hidden-tool');
+            }
+        });
+
+        // --- 2. Live API Status Checker ---
+        const API_STATUS_URL = 'https://localhost:7192/api/APIHealth/calculate'; 
+
+        async function checkApiStatus() {
+            const dot = document.getElementById('status-indicator');
+            const text = document.getElementById('status-text');
+
+            try {
+                // Using a 5s timeout to prevent hanging
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+                const response = await fetch(API_STATUS_URL, { signal: controller.signal });
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    dot.className = 'status-dot bg-emerald-500 animate-pulse';
+                    text.innerText = 'OPERATIONAL';
+                    text.className = 'ml-1 text-emerald-500';
+                } else {
+                    throw new Error('Offline');
+                }
+            } catch (err) {
+                dot.className = 'status-dot bg-red-500';
+                text.innerText = 'OFFLINE';
+                text.className = 'ml-1 text-red-500';
+            }
+        }
+
+        // Check status on load and every 60 seconds
+        checkApiStatus();
+        setInterval(checkApiStatus, 60000);
+    </script>
+</body>
+</html>
